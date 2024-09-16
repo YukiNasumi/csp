@@ -94,6 +94,7 @@ size_t elm_find(string mat,string elm,size_t start){
     }
     return pos;
 }
+double a[MAX_NUM][MAX_NUM];
 signed main(){
     cin >> n;
     for(int v=0;v<n;v++){
@@ -139,9 +140,45 @@ signed main(){
         row = r;
         column = c;
         //show_matrix(r,c);
-        rank_transform(0,0,r,c);
+        int  j, k, len, s, t, z;
+        double tmp = 0;
+        double p;
+        t = row,m = column;
+        for(int i =0;i<row;i++){
+            for(int j=0;j<column;j++){
+                a[i+1][j+1]=matrix[i][j];
+            }
+        }
+        for (i = 1; i <= t; i++) {    
+            // 检验全为0则忽略该行    
+            for (j = 1; j <= m; j++)
+                if (a[i][j] != 0)
+                    break;
+            if (j > m) continue;
+            if (a[i][i] == 0) { // 如果第i列为0，向下找一个不为0的整行交换 
+                for (j = i + 1; j <= t && a[j][i] == 0; j++);
+                for (k = 1; k <= m; k++)
+                    tmp = a[i][k],
+                    a[i][k] = a[j][k],
+                    a[j][k] = tmp;
+            }
+            for (j = i + 1; j <= t; j++) { // 将后面每一行减去第i行相应倍数，使第i列变成0 
+                p = a[j][i] / a[i][i];
+                for (k = i; k <= m; k++)
+                    a[j][k] = a[j][k] - a[i][k] * p;
+            }
+        }
+        z = 0;
+        for (i = 1; i <= t; i++) { // 统计不全为0的行数，即矩阵的秩 
+            for (j = 1; j <= m && a[i][j] == 0; j++);
+            if (j <= m) z++;
+        }
+        if (z < m) printf("Y\n");
+        else printf("N\n");
+    
+        /*rank_transform(0,0,r,c);
         if(cal_rank()<c) cout << 'Y' << endl;
-        else cout << 'N' << endl;
+        else cout << 'N' << endl;*/
         memset(matrix,0,sizeof(matrix));
     }
     return 0;
