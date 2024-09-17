@@ -47,7 +47,7 @@ int rank_transform(int x,int y, int r,int c){
         return 1;};
     if(fabs(matrix[x][y])<=1e-5){//the start point element is zero
         int i=1;
-        for(;i<r&&(matrix[x+i][y]<=1e-5);i++);
+        for(;i<r&&(fabs(matrix[x+i][y])<=1e-5);i++);
         swap_row(x,x+i,y,c);
 
     }
