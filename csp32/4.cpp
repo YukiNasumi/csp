@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long
+#define int unsigned long long
 #define HEAD 1
 #define TAIL 0
 #define MOD 998244353
@@ -17,7 +17,13 @@ matrix matmul(matrix A,matrix B){
                     (((A.a%MOD)*(B.b%MOD)%MOD)+((A.b%MOD)*(B.d%MOD)%MOD))%MOD, 
                     (((A.c%MOD)*(B.a%MOD)%MOD)+((A.d%MOD)*(B.c%MOD)%MOD))%MOD, 
                     (((A.c%MOD)*(B.b%MOD)%MOD)+((A.d%MOD)*(B.d%MOD)%MOD))%MOD};
+    /*return matrix{
+        A.a*B.a+A.b*B.c,
+        A.a*B.b+A.b*B.d,
+        A.c*B.a+A.d*B.c,
+        A.c*B.b+A.d*B.d        };*/
 }
+matrix eyes = {1,0,0,1};
 int n,m;
 vector<vector<int>>prompt;
 signed main(){
@@ -67,21 +73,19 @@ signed main(){
             for(int j=l-1;j<r;j++){
                 vector<int>p = prompt[j];
                 int name = p[0];
-                if(name==3){
-                    if(latest==HEAD){
-                        pw.pop_front();
-                    }
-                    else{
-                        pw.pop_back();
-                    }
+                if(name==3&&(!pw.empty())){
+                    pw.pop_back();
+                    pw.pop_front();
                     continue;
                 }
                 if(name==1){
                     pw.push_front(matrix{p[1],p[2],p[3],p[4]});
+                    pw.push_back(eyes);
                     latest = HEAD;
                 }
                 else{
                     pw.push_back(matrix{p[1],p[2],p[3],p[4]});
+                    pw.push_front(eyes);
                     latest = TAIL;
                 }
             }
@@ -92,11 +96,13 @@ signed main(){
                 matrix ans = {1,0,0,1};
                 while(!pw.empty()){
                     ans = matmul(ans,pw.front());
+                    cout<<pw.front().a <<"|"<< pw.front().b<<"|" << pw.front().c <<"|" << pw.front().d<<endl;
                     pw.pop_front();
                 }
-                cout << ans.a << " " << ans.b<< " "<< ans.c << " "<<ans.d<<endl;
+                cout << ans.a%MOD << " " << ans.b%MOD<< " "<< ans.c%MOD << " "<<ans.d%MOD<<endl;
             }
         }
     }
 
+return 0;
 }
