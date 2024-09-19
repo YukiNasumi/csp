@@ -24,7 +24,7 @@ int cal_children_w(tree* t){
     for(vector<tree*>::iterator it=t->children.begin();it!=t->children.end();it++){
         tree* child_p = *it;
         if(!child_p->flag) continue;
-        t->children_w += cal_children_w(child_p); 
+        t->children_w += child_p->w+cal_children_w(child_p); 
     }
     return t->children_w;
 }
@@ -43,8 +43,8 @@ list<pair<int,int>>get_w_delta(int sum){
 }
 bool ischild(tree* father,int q){
     tree* child = classes[q];
-    while(!child->parent){
-        if(child->parent->id == father->id) return true;
+    while(child){
+        if(child->id == father->id) return true;
         child = child->parent;
     }
     return false;
@@ -87,6 +87,7 @@ signed main(){
         parent->children.push_back(classes[i]);
         classes[i]->parent = parent;
     }
+    int copy = sum;
     for(int k=0;k<m;k++){
         int q;
         cin >> q;
@@ -112,7 +113,8 @@ signed main(){
             }
             l = get_w_delta(sum);
         }
-        cout << l.front().first <<endl;
+        cout << endl;
         recover_tree();
+        sum = copy;
     }
 }
