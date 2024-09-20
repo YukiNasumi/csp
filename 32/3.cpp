@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 #define int long long
-#define MAX_CLASS 2000
+#define MAX_CLASS 2010
 #define exist 1;
 using namespace std;
 typedef struct tree{
@@ -71,7 +71,8 @@ void del2(tree* t){
 void recover_tree(){
     for(int i=1;i<=n;i++) classes[i]->flag=exist;
 }
-signed main(){
+signed main(signed argc,char* argv[]){
+    /*freopen("../in.txt","r",stdin);*/
     cin >> n >> m;
     int sum=0;
     for(int i=1;i<=n;i++){
@@ -117,4 +118,5 @@ signed main(){
         recover_tree();
         sum = copy;
     }
+    return 0;
 }
