@@ -5,6 +5,7 @@ string current_dir;
 vector<string>split(string& dir){
     int start=0,end = 0;
     vector<string>res;
+    if(!dir.length()) return res;
     int l = dir.length();
     if(dir[0]=='/') res.push_back("/");
     for(int i =0;i<l;i++){
@@ -29,7 +30,9 @@ typedef struct node{
 node* root;
 int main(){
     cin >> P;
-    cin >> current_dir;
+    cin.ignore();
+    getline(cin,current_dir);
+    //cin >> current_dir;
     vector<string>l = split(current_dir);
     /*for(auto &a:l) cout << a << endl;
     return 0;*/
@@ -55,7 +58,8 @@ int main(){
         }
             //now p points to the current dir
         string path;
-        cin >> path;
+        getline(cin,path);
+        //cin >> path;
         vector<string>path2 = split(path);
         node* cwd=p;//current work dir
         for(vector<string>::iterator it=path2.begin();it!=path2.end();it++){
@@ -73,8 +77,9 @@ int main(){
         list<string>ans;
         do{
             ans.push_front(cwd->name);
+            if(cwd->name=="/") break;
             cwd = cwd->children[string("..")];
-        }while(cwd);
+        }while(1);
         for(list<string>::iterator it=ans.begin();it!=ans.end();it++){
             string name = *it;
             cout << name;
